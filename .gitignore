@@ -1,1 +1,3 @@
 .env
+django_rest_frame_work/__pycache__
+blog/__pycache__
