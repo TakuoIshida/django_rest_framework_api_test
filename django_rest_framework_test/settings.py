@@ -11,21 +11,30 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = environ.Path(__file__) - 3
 
-
+env = environ.Env()
+env.read_env('.env')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'g2%k6_31#-y1ao%)nbi55l)um9l(lm-p1x@3)^jllo_gh-(pvn'
+SECRET_KEY = env('SECRET_KEY')
+DEBUG = env('DEBUG')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# AWS_S3_BUCKET_NAME=env('DJANGO_AWS_S3_BUCKET_NAME')
+# AWS_ACCESS_KEY=env('DJANGO_AWS_ACCESS_KEY')
+# AWS_SECRET_KEY=env('DJANGO_AWS_SECRET_KEY')
 
-ALLOWED_HOSTS = []
+DATABASES = {
+    'default': env.db() # デフォルトでDATABASE_URLの環境変数を分解してくれる
+}
+
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -105,7 +114,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ja'
 
 TIME_ZONE = 'UTC'
 
